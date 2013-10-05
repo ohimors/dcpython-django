@@ -61,8 +61,8 @@ You can now visit the Django site at http://localhost:5000
 Basic Vagrant
 -------------
 
-All these commands need to be performed from the dcpython-django directory
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+From the dcpython-django directory
+++++++++++++++++++++++++++++++++++
 
 Create a new development environment::
 
