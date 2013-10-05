@@ -3,7 +3,7 @@ DCPython Website
 
 About
 -----
-The site is built with the `Django <http://www.djangoproject.org>`_ web framework. The two major advantages of Django are it gives us an admin site out of the box and many people already know it.
+The site is built with the `Django web framework <http://www.djangoproject.org>`_. The two major advantages of Django are it gives us an admin site out of the box and many people already know it.
 
 We use **Git version control** and `GitHub <http://www.github.com>`_ for project hosting. Github provides git hosting, bug tracking and wiki.
 
