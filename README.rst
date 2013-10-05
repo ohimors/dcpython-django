@@ -3,11 +3,11 @@ DCPython Website
 
 About
 -----
-The site is built with the **`Django <http://www.djangoproject.org>`_ web framework**. The two major advantages of Django are it gives us an admin site out of the box and many people already know it.
+The site is built with the `Django <http://www.djangoproject.org>`_ web framework. The two major advantages of Django are it gives us an admin site out of the box and many people already know it.
 
-We use **Git version control** and **`GitHub <http://www.github.com>`_** for project hosting. Github provides git hosting, bug tracking and wiki.
+We use **Git version control** and `GitHub <http://www.github.com>`_ for project hosting. Github provides git hosting, bug tracking and wiki.
 
-We use the **`Vagrant <http://www.vagrantup.com>`_ development environment**. Vagrant allows us to standardize our development and production environments and makes it easy for everybody to get up and running. Vagrant creates a virtual machine, sets up django, database, and everything, then mirrors and syncs the project source code on both your machine and the vm. That way, you make changes to the code on your machine, the changes are mirrored in the vm. Then you run Django on the VM. Now, you can do local development, but you don't have to set up Django and the Database. Very cool.
+We use the `Vagrant <http://www.vagrantup.com>`_ development environment. Vagrant allows us to standardize our development and production environments and makes it easy for everybody to get up and running. Vagrant creates a virtual machine, sets up django, database, and everything, then mirrors and syncs the project source code on both your machine and the vm. That way, you make changes to the code on your machine, the changes are mirrored in the vm. Then you run Django on the VM. Now, you can do local development, but you don't have to set up Django and the Database. Very cool.
 
 Installation
 ------------
