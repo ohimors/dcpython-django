@@ -87,7 +87,7 @@ We will be using this git branching model: http://nvie.com/posts/a-successful-gi
 	# START NEW FEATURE
 
 	# merge any changes from master
-	git pull https://github.com/DCPython/dcpython-django.git master
+	git pull https://github.com/DCPython/dcpython-django.git develop
 
 	# list all the changes in this branch
 	git log
@@ -115,7 +115,7 @@ We will be using this git branching model: http://nvie.com/posts/a-successful-gi
 	# MERGE FEATURE
 
 	# merge any changes from master that have occurred while you were programming
-	git pull https://github.com/DCPython/dcpython-django.git master
+	git pull https://github.com/DCPython/dcpython-django.git develop
 
 	# push changes to your github repo
 	git push -u origin name-of-branch
