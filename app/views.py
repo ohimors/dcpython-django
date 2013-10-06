@@ -9,6 +9,3 @@ def about(request):
 
 def deals(request):
     return render(request, 'app/deals.html', {"active": "deals"})
-
-def google_verify(request):
-    return render(request, 'app/google_verify.html')
