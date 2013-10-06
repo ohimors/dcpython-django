@@ -1,6 +1,9 @@
 import os
+env = os.environ
 
 BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+
+MEETUP_API_KEY = env.get("MEETUP_API_KEY", "5b7d196f674c6d74514b1c45dc4a4f")
 
 # Django settings for dcpython project.
 
