@@ -1,5 +1,7 @@
 import os
 
+BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
+
 # Django settings for dcpython project.
 
 DEBUG = True
@@ -71,8 +73,6 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-print BASE_DIR
 STATIC_ROOT = 'staticfiles' 
 
 # URL prefix for static files.
@@ -133,6 +133,10 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bootstrap3',
+    'app',
+    'events',
+    'support',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:

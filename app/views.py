@@ -1,0 +1,11 @@
+from django.shortcuts import get_object_or_404, render
+# Create your views here.
+
+def home(request):
+    return render(request, 'app/home.html', {"active": "home"})
+
+def about(request):
+    return render(request, 'app/about.html', {"active": "about"})
+
+def deals(request):
+    return render(request, 'app/deals.html', {"active": "deals"})
