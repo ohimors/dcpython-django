@@ -1,3 +1,4 @@
+from django.views.decorators.cache import cache_page
 from django.shortcuts import get_object_or_404, render
 from django.conf import settings
 from universalclient import Client
@@ -10,6 +11,7 @@ upcoming = upcoming.json()
 upcoming = upcoming['results']
 
 
+@cache_page(3600)  # Cache API results for one hour
 def events(request):
     return render(request, 'events/events.html', {"upcoming": upcoming, "active": "events"}) # `active needed for nav
 
