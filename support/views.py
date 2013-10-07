@@ -5,7 +5,7 @@ from django.template import RequestContext
 # Create your views here.
 
 def support(request):
-    return render(request, 'support/support.html', {"active": "support"})
+    return render(request, 'support/support.html', {"active": "donate"})
 
 def donor_update(request, secret=None):
 	donor = get_object_or_404(Donor, secret=secret)

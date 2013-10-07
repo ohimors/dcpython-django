@@ -11,7 +11,7 @@ upcoming = upcoming['results']
 
 
 def events(request):
-    return render(request, 'events/events.html', {"upcoming": upcoming})
+    return render(request, 'events/events.html', {"upcoming": upcoming, "active": "events"}) # `active needed for nav
 
 
 def update(request):
