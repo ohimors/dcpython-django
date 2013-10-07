@@ -10,3 +10,8 @@ events = meetup._('2').events.setArgs(params={"group_urlname": "dcpython"})
 def events(request):
     return render(request, 'events/events.html', {"active": "events"})
 
+
+def update(request):
+    """
+    Look up events that have changed on meetup.com and call Models API
+    """
