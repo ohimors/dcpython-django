@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(r'^donate$', 'support.views.support', name='support'),
     url(r'^about$', 'app.views.about', name='about'),
     url(r'^deals$', 'app.views.deals', name='deals'),
+    url(r'^resources$', 'app.views.resources', name='resources'),
     # url(r'^$', 'dcpython.views.home', name='home'),
     # url(r'^dcpython/', include('dcpython.foo.urls')),
 
