@@ -5,15 +5,24 @@ from universalclient import Client
 
 # Meetup API
 meetup = Client("http://api.meetup.com").setArgs(params={"key": settings.MEETUP_API_KEY})
-events = meetup._('2').events.setArgs(params={"group_urlname": "dcpython"})
-upcoming = events.get()
+
+# Upcoming events
+upcoming = meetup._('2').events.setArgs(params={"group_urlname": "dcpython"})
+upcoming = upcoming.get()
 upcoming = upcoming.json()
-upcoming = upcoming['results']
+upcoming = upcoming.get('results')
+
+# Past events
+past = meetup._('2').events.setArgs(params={"group_urlname": "dcpython", "status": "past"})
+past = past.get()
+past = past.json()
+past = past.get('results')
+past.reverse()
 
 
 @cache_page(3600)  # Cache API results for one hour
 def events(request):
-    return render(request, 'events/events.html', {"upcoming": upcoming, "active": "events"}) # `active needed for nav
+    return render(request, 'events/events.html', {"upcoming": upcoming, "past": past, "active": "events"}) # active needed for nav
 
 
 def update(request):
