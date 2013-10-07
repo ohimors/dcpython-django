@@ -1,15 +1,98 @@
 {% extends "app/base.html" %}
+{% load bootstrap3 %}
 
-{% block title %}Support Us{% endblock %}
+{% block title %}Donate{% endblock %}
 
 {% block content %}
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-lg-12">
-          <h1>Donate</h1>
-          <h1>Supporters</h1>
-        </div>
+  <style type="text/css">
+  .donor_lvl {
+    background-color: red;
+    border-radius: 10px;    
+    padding:20px;
+    text-align: center;
+    height: 100px;
+    margin: 10px;
+  }
+
+  .donor_lvl h1 {
+    font-size: 20px;
+    margin: 0px;
+    padding: 0px;
+  }
+  .donor_lvl h2 {
+    font-size: 15px;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .platinum {
+    background-color: #f6fafa;
+  }
+  .gold {
+    background-color: gold;
+  }
+  .silver {
+    background-color: silver;
+  }
+  .bronze {
+    background-color: #C69633;
+  }
+  </style>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Donate</h1>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-2">
+        <div class="donor_lvl platinum">
+          <h1>Platinum</h1>
+          <h2>$1000+</h2>
+        </div>
+
+        <div class="donor_lvl gold">
+          <h1>Gold</h1>
+          <h2>$500+</h2>
+        </div>
+
+        <div class="donor_lvl silver">
+          <h1>Silver</h1>
+          <h2>$250+</h2>
+        </div>        
+      </div>
+      <div class="col-lg-2">
+        <div class="donor_lvl bronze">
+          <h1>Bronze</h1>
+          <h2>$100+</h2>
+        </div>
+
+        <div class="donor_lvl individual">
+          <h1>Individual</h1>
+          <h2>$50+</h2>
+        </div>
+
+        <div class="donor_lvl other">
+          <h1>Other</h1>
+          <h2>$25</h2>
+        </div>
+      </div>
+      <div class="col-lg-4">
+      </div>
+      <div class="col-lg-4">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+
+        <button type="submit" class="btn btn-primary">
+          Submit
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Supporters</h1>
+      </div>
+    </div>
+  </div>
 {% endblock %}
