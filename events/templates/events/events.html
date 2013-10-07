@@ -15,6 +15,7 @@
           <h2>Upcoming Events</h2>
           {% for event in upcoming %}
             <h3>{{ event.name }}</h3>
+            <h4>{{ event.time }}</h4>
             {{ event.description | safe }}
           <p>
             <a class="btn btn-default" href="{{ event.event_url}}">View details »</a>
@@ -25,6 +26,7 @@
           <h2>Past Events</h2>
           {% for event in past %}
             <h3>{{ event.name }}</h3>
+            <h4>{{ event.time }}</h4>
             {{ event.description | safe }}
           <p>
             <a class="btn btn-default" href="{{ event.event_url}}">View details »</a>
