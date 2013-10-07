@@ -16,6 +16,12 @@
           {% for event in upcoming %}
             <h3>{{ event.name }}</h3>
             <h4>{{ event.time }}</h4>
+            <p>{{ event.venue.name }}</h5>
+            <h5>{{ event.venue.address_1 }}</h5>
+            <h5>{{ event.venue.address_2 }}</h5>
+            <h5>{{ event.venue.address_3 }}</h5>
+            <h5>{{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }}</h5>
+            <h5>{{ event.venue.country }}</h5>
             {{ event.description | safe }}
           <p>
             <a class="btn btn-default" href="{{ event.event_url}}">View details »</a>
@@ -27,6 +33,12 @@
           {% for event in past %}
             <h3>{{ event.name }}</h3>
             <h4>{{ event.time }}</h4>
+            <h5>{{ event.venue.name }}</h5>
+            <h5>{{ event.venue.address_1 }}</h5>
+            <h5>{{ event.venue.address_2 }}</h5>
+            <h5>{{ event.venue.address_3 }}</h5>
+            <h5>{{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }}</h5>
+            <h5>{{ event.venue.country }}</h5>
             {{ event.description | safe }}
           <p>
             <a class="btn btn-default" href="{{ event.event_url}}">View details »</a>
