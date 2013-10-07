@@ -8,12 +8,12 @@ meetup = Client("http://api.meetup.com").setArgs(params={"key": settings.MEETUP_
 events = meetup._('2').events.setArgs(params={"group_urlname": "dcpython"})
 upcoming = events.get()
 upcoming = upcoming.json()
-upcoming = upcoming['results']
+upcoming = upcoming.get('results')
 
 
 @cache_page(3600)  # Cache API results for one hour
 def events(request):
-    return render(request, 'events/events.html', {"upcoming": upcoming, "active": "events"}) # `active needed for nav
+    return render(request, 'events/events.html', {"upcoming": upcoming, "active": "events"}) # active needed for nav
 
 
 def update(request):
