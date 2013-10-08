@@ -1,5 +1,7 @@
 {% extends "app/base.html" %}
 
+{% load events_extras %}
+
 {% block title %}Events{% endblock %}
 
 {% block content %}
@@ -16,7 +18,7 @@
           {% for event in upcoming %}
           <hr />
             <h3>{{ event.name }}</h3>
-            <h4>{{ event.time }}</h4>
+            <h4>{{ event | convert_seconds_to_datetime }}</h4>
             <h5>{{ event.venue.name }}<br />
             {{ event.venue.address_1 }}<br />
             {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }} <br /></h5>
@@ -31,7 +33,7 @@
           {% for event in past %}
           <hr />
             <h3>{{ event.name }}</h3>
-            <h4>{{ event.time }}</h4>
+            <h4>{{ event | convert_seconds_to_datetime }}</h4>
             <h5>{{ event.venue.name }}<br />
             {{ event.venue.address_1 }}<br />
             {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }} <br /></h5>
