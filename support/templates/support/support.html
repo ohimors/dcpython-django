@@ -3,7 +3,13 @@
 
 {% block title %}Donate{% endblock %}
 
-{% block content %}
+{% block head %}
+  <script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
+  
+  <script type="text/javascript">
+    balanced.init({{ balanced_uri }});
+  </script>
+  
   <style type="text/css">
   .donor_lvl {
     background-color: red;
@@ -37,7 +43,13 @@
   .bronze {
     background-color: #C69633;
   }
+  .donor_lvl.active {
+    border: solid black 5px;
+  }
   </style>
+{% endblock %}
+
+{% block content %}
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
@@ -56,7 +68,7 @@
           <h2>$500+</h2>
         </div>
 
-        <div class="donor_lvl silver">
+        <div class="donor_lvl silver active">
           <h1>Silver</h1>
           <h2>$250+</h2>
         </div>        
@@ -77,8 +89,16 @@
           <h2>$25</h2>
         </div>
       </div>
+
       <div class="col-lg-4">
+        <form role="form" class="form-horizontal">
+          <label for="donationAmt" class="col-lg-2 control-label">$</label>
+          <div class="col-lg-10">
+            <input type="text" class="form-control" placeholder="Donation" id="donationAmt" />
+          </div>
+        </form>
       </div>
+
       <div class="col-lg-4">
         {% csrf_token %}
         {% bootstrap_form form %}

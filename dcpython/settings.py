@@ -5,6 +5,7 @@ BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 MEETUP_API_KEY = env.get("MEETUP_API_KEY", "5b7d196f674c6d74514b1c45dc4a4f")
 GOOGLE_API_KEY = env.get("GOOGLE_API_KEY", "AIzaSyAI0V0ZxALAxiDf1gpOywhj_REJHcu_sAU")
+BALANCED_URI = env.get("BALANCED_URI", "ak-test-OALWFXFIUwLCzP0CmUWstJIvyQUWe2u5")
 
 # Django settings for dcpython project.
 
