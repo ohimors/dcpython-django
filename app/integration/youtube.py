@@ -5,6 +5,7 @@ from warnings import warn
 
 from apiclient.discovery import build
 
+from django.core.cache import cache
 from django.conf import settings
 
 API_KEY = settings.GOOGLE_API_KEY
@@ -17,9 +18,12 @@ YOUTUBE = build('youtube', 'v3', developerKey=API_KEY)
 
 
 def get_playlists():
-    playlists = YOUTUBE.playlists().list(part='id,snippet', channelId=CHANNEL_ID).execute()
+    playlists = cache.get("youtube_playlists_%s" % CHANNEL_ID)
+    if playlists is None:
+        playlists = YOUTUBE.playlists().list(part='id,snippet', channelId=CHANNEL_ID).execute()["items"]
+        cache.set("youtube_playlists_%s" % CHANNEL_ID, playlists, 60)
 
-    for playlist in playlists["items"]:
+    for playlist in playlists:
         yield playlist['id'], playlist['snippet']['title']
 
 
@@ -37,3 +41,12 @@ def get_playlist_items(playlist_id):
             yield video_id, title
 
         items_request = YOUTUBE.playlistItems().list_next(items_request, response)
+
+
+def find_playlist(name, date):
+    # We'll look for both zero padding and unpadded dates:
+    date_keys = (date.strftime("%Y-%m-%d"), "%s-%s-%s" % (date.year, date.month, date.day))
+
+    for id, title in get_playlists():
+        if name == title or any(i in title for i in date_keys):
+            return id
