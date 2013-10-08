@@ -1,4 +1,5 @@
 from dateutil.tz import tzutc
+from dateutil.tz import tzoffset
 from django import template
 
 import datetime
@@ -31,18 +32,22 @@ def parse_datetime(utc_timestamp_ms, utc_offset_ms):
 
         if utc_offset_ms:
             utc_offset_s = utc_offset_ms / 1000
-            tz_offset = tzoffset(None, utc_offset_s)
-            dt = dt.astimezone(tz_offset)
+            dt + datetime.timedelta(seconds=utc_offset_s)
 
         return dt
 
 
-def convert_seconds_to_datetime(seconds):
+def convert_seconds_to_datetime(event):
     """
     Meetup gives us seconds, we need a Python datetime object
     """
 
-    return parse_datetime(seconds, 0)
+    start = parse_datetime(event['time'], 0)
+    try:
+        finish = parse_datetime(event['time'], event['duration'])
+        return '%s - %s' % (start, finish)
+    except:
+        return '%s' % start
 
 
 register.filter('convert_seconds_to_datetime', convert_seconds_to_datetime)
