@@ -1,46 +1,42 @@
-from django import template
+# encoding: utf-8
+
+import datetime
+
 from django.views.decorators.cache import cache_page
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render
 from django.conf import settings
+
 from universalclient import Client
 
-import time
-
-register = template.Library()
+from app.integration.meetup import parse_datetime_ms
 
 # Meetup API
 meetup = Client("http://api.meetup.com").setArgs(params={"key": settings.MEETUP_API_KEY})
 
 # Upcoming events
-upcoming = meetup._('2').events.setArgs(params={"group_urlname": "dcpython"})
-upcoming = upcoming.get()
-upcoming = upcoming.json()
-upcoming = upcoming.get('results')
+upcoming_q = meetup._('2').events.setArgs(params={"group_urlname": "dcpython"})
 
 # Past events
-past = meetup._('2').events.setArgs(params={"group_urlname": "dcpython", "status": "past"})
-past = past.get()
-past = past.json()
-past = past.get('results')
-past.reverse()
+past_q = meetup._('2').events.setArgs(params={"group_urlname": "dcpython", "status": "past"})
 
 
-def convert_seconds_to_datetime(seconds):
-    """
-    Meetup gives us seconds, we need a Python datetime object
-    """
-
-    return time.strftime('%H:%M:%S', time.gmtime(seconds))
-
-    
 @cache_page(3600)  # Cache API results for one hour
 def events(request):
-    return render(request, 'events/events.html', {"upcoming": upcoming, "past": past, "active": "events"}) # active needed for nav
+    upcoming = upcoming_q.get().json().get('results')
+    past = past_q.get().json().get('results')
+
+    for i in upcoming + past:
+        i['start_time'] = parse_datetime_ms(i['time'], i['utc_offset'])
+        if 'duration' in i:
+            i['end_time'] = i['start_time'] + datetime.timedelta(milliseconds=i['duration'])
+
+    return render(request, 'events/events.html', {"upcoming": upcoming,
+                                                  "past": past,
+                                                  # Used for navigation styling:
+                                                  "active": "events"})
 
 
 def update(request):
     """
     Look up events that have changed on meetup.com and call Models API
     """
-
-register.filter('convert_seconds_to_datetime', convert_seconds_to_datetime)

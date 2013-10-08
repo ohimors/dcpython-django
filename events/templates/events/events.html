@@ -16,31 +16,34 @@
         <div class="col-lg-6">
           <h2>Upcoming Events</h2>
           {% for event in upcoming %}
-          <hr />
-            <h3>{{ event.name }}</h3>
-            <h4>{{ event | convert_seconds_to_datetime }}</h4>
-            <h5>{{ event.venue.name }}<br />
-            {{ event.venue.address_1 }}<br />
-            {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }} <br /></h5>
-            {{ event.description | safe }}
-          <p>
-            <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
-          </p>
+              <hr />
+              <h3>{{ event.name }}</h3>
+              <h4>{% format_event_date event.start_time event.end_time %}</h4>
+              <h5>{{ event.venue.name }}<br />
+                  {{ event.venue.address_1 }}<br />
+                  {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }}<br>
+              </h5>
+              {{ event.description | safe }}
+              <p>
+                  <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
+              </p>
           {% endfor %}
         </div>
         <div class="col-lg-6">
           <h2>Past Events</h2>
-          {% for event in past %}
-          <hr />
-            <h3>{{ event.name }}</h3>
-            <h4>{{ event | convert_seconds_to_datetime }}</h4>
-            <h5>{{ event.venue.name }}<br />
-            {{ event.venue.address_1 }}<br />
-            {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }} <br /></h5>
-            {{ event.description | safe }}
-          <p>
-            <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
-          </p>
+          {% for event in past reversed %}
+              <hr />
+              <h3>{{ event.name }}</h3>
+              <h4>{% format_event_date event.start_time event.end_time %}</h4>
+              <h5>
+                  {{ event.venue.name }}<br />
+                  {{ event.venue.address_1 }}<br />
+                  {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }} <br />
+              </h5>
+              {{ event.description | safe }}
+              <p>
+                  <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
+              </p>
           {% endfor %}
        </div>
       </div>

@@ -1,3 +1,15 @@
 from django import template
 
 register = template.Library()
+
+
+def format_event_date(start_time, end_time):
+    if end_time and (end_time - start_time).days > 0:
+        multi_day = True
+    else:
+        multi_day = False
+
+    return {"start_time": start_time, "end_time": end_time,
+            "multi_day": multi_day}
+
+register.inclusion_tag('events/event-datetime-range.html')(format_event_date)
