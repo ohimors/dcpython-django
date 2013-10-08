@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, render
-from support.forms import DonorForm
+from support.forms import DonorForm, DonationForm
 from support.models import Donor
 from django.template import RequestContext
 from django.conf import settings
@@ -7,7 +7,7 @@ from django.conf import settings
 
 def support(request):
     context = RequestContext(request)
-    context.update({"active": "donate", "form": DonorForm(), "balanced_uri": settings.BALANCED_URI })
+    context.update({"active": "donate", "donor_form": DonorForm(), "donation_form": DonationForm, "balanced_uri": settings.BALANCED_URI })
     return render(request, 'support/support.html', context)
 
 def donor_update(request, secret=None):

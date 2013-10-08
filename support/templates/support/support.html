@@ -7,7 +7,52 @@
   <script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
   
   <script type="text/javascript">
-    balanced.init({{ balanced_uri }});
+    $(function() {
+      console.log('startup');
+      var DONATION_AMTS = [
+        ["platinum", 1000],
+        ["gold", 500],
+        ["silver", 250],
+        ["bronze", 100],
+        ["individual", 50],
+        ["other", 0]
+      ]
+
+      var DONATION_AMTS_DICT = {
+        platinum: 1000,
+        gold: 500,
+        silver: 250,
+        bronze: 100,
+        individual: 50,
+        other: 0
+      }
+
+      var handle_donation_change = function(e) {
+        var donation = parseFloat($("#donationAmt").val());
+        for (var i=0; i < DONATION_AMTS.length; i++) {
+          $("." + DONATION_AMTS[i][0]).removeClass("active");
+        }
+        for (var i=0; i < DONATION_AMTS.length; i++) {
+          if (donation >= DONATION_AMTS[i][1]) {
+            $("." + DONATION_AMTS[i][0]).addClass("active");
+            break;
+          }
+        }
+        $("#id_donation").val(donation)
+      }
+      $("#donationAmt").change(handle_donation_change).keyup(handle_donation_change);
+
+      var handle_donor_lvl_click = function(e) {
+        var donation = DONATION_AMTS_DICT[$(e.currentTarget).attr("class").split(" ")[1]];
+
+        $("#donationAmt").val(donation);
+        handle_donation_change();
+      }
+
+      $(".donor_lvl").click(handle_donor_lvl_click);
+    })
+
+    balanced.init("{{ balanced_uri }}");
   </script>
   
   <style type="text/css">
@@ -57,36 +102,38 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-lg-2">
-        <div class="donor_lvl platinum">
-          <h1>Platinum</h1>
-          <h2>$1000+</h2>
-        </div>
+      <div class="col-lg-4">
+        <div class="col-lg-6">
+          <div class="donor_lvl platinum">
+            <h1>Platinum</h1>
+            <h2>$1000+</h2>
+          </div>
 
-        <div class="donor_lvl gold">
-          <h1>Gold</h1>
-          <h2>$500+</h2>
-        </div>
+          <div class="donor_lvl gold">
+            <h1>Gold</h1>
+            <h2>$500+</h2>
+          </div>
 
-        <div class="donor_lvl silver active">
-          <h1>Silver</h1>
-          <h2>$250+</h2>
-        </div>        
-      </div>
-      <div class="col-lg-2">
-        <div class="donor_lvl bronze">
-          <h1>Bronze</h1>
-          <h2>$100+</h2>
+          <div class="donor_lvl silver">
+            <h1>Silver</h1>
+            <h2>$250+</h2>
+          </div>        
         </div>
+        <div class="col-lg-6">
+          <div class="donor_lvl bronze">
+            <h1>Bronze</h1>
+            <h2>$100+</h2>
+          </div>
 
-        <div class="donor_lvl individual">
-          <h1>Individual</h1>
-          <h2>$50+</h2>
-        </div>
+          <div class="donor_lvl individual">
+            <h1>Individual</h1>
+            <h2>$50+</h2>
+          </div>
 
-        <div class="donor_lvl other">
-          <h1>Other</h1>
-          <h2>$25</h2>
+          <div class="donor_lvl other">
+            <h1>Other</h1>
+            <h2>$25</h2>
+          </div>
         </div>
       </div>
 
@@ -101,7 +148,8 @@
 
       <div class="col-lg-4">
         {% csrf_token %}
-        {% bootstrap_form form %}
+        {% bootstrap_form donation_form %}
+        {% bootstrap_form donor_form %}
 
         <button type="submit" class="btn btn-primary">
           Submit
