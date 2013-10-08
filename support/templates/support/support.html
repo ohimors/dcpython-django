@@ -1,15 +1,242 @@
 {% extends "app/base.html" %}
+{% load bootstrap3 %}
 
-{% block title %}Support Us{% endblock %}
+{% block title %}Donate{% endblock %}
+
+{% block head %}
+  <script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
+  
+  <script type="text/javascript">
+    $(function() {
+      console.log('startup');
+      var DONATION_AMTS = [
+        ["platinum", 1000],
+        ["gold", 500],
+        ["silver", 250],
+        ["bronze", 100],
+        ["individual", 50],
+        ["other", 0]
+      ]
+
+      var DONATION_AMTS_DICT = {
+        platinum: 1000,
+        gold: 500,
+        silver: 250,
+        bronze: 100,
+        individual: 50,
+        other: 25
+      }
+
+      // DONATION TEXTBOX VALUE CHANGE
+      var handle_donation_change = function(e) {
+        var donation = parseFloat($("#donationAmt").val());
+        for (var i=0; i < DONATION_AMTS.length; i++) {
+          $("." + DONATION_AMTS[i][0]).removeClass("active");
+        }
+        for (var i=0; i < DONATION_AMTS.length; i++) {
+          if (donation >= DONATION_AMTS[i][1]) {
+            $("." + DONATION_AMTS[i][0]).addClass("active");
+            break;
+          }
+        }
+        $("#id_donation").val(donation)
+      }
+      $("#donationAmt").change(handle_donation_change).keyup(handle_donation_change);
+
+      // LEVEL CLICKS
+      var handle_donor_lvl_click = function(e) {
+        var donation = DONATION_AMTS_DICT[$(e.currentTarget).attr("class").split(" ")[1]];
+
+        $("#donationAmt").val(donation);
+        handle_donation_change();
+      }
+
+      $(".donor_lvl").click(handle_donor_lvl_click);
+
+      // DONATION SOURCE CHANGE
+      var handle_donation_source_change = function(e) {
+        var donation_source = $(e.target).val();
+  
+        $(".payment-form").addClass("hidden");
+        $("#form-" + donation_source).removeClass("hidden");
+        $("#id_donation_type").val(donation_source);
+      }
+
+
+      $("#donate_source").change(handle_donation_source_change);
+    })
+
+    balanced.init("{{ balanced_uri }}");
+  </script>
+  
+  <style type="text/css">
+  .donor_lvl {
+    background-color: red;
+    border-radius: 10px;    
+    padding:20px;
+    text-align: center;
+    height: 100px;
+    margin: 10px;
+  }
+
+  .donor_lvl h1 {
+    font-size: 20px;
+    margin: 0px;
+    padding: 0px;
+  }
+  .donor_lvl h2 {
+    font-size: 15px;
+    margin: 0px;
+    padding: 0px;
+  }
+
+  .platinum {
+    background-color: #f6fafa;
+  }
+  .gold {
+    background-color: gold;
+  }
+  .silver {
+    background-color: silver;
+  }
+  .bronze {
+    background-color: #C69633;
+  }
+  .donor_lvl.active {
+    border: solid black 5px;
+  }
+
+  .hidden {
+    visibility: hidden;
+  }
+  </style>
+{% endblock %}
 
 {% block content %}
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-        <div class="col-lg-12">
-          <h1>Donate</h1>
-          <h1>Supporters</h1>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Donate</h1>
       </div>
     </div>
+    <div class="row">
+      <div class="col-lg-4">
+        <div class="col-lg-6">
+          <div class="donor_lvl platinum">
+            <h1>Platinum</h1>
+            <h2>$1000+</h2>
+          </div>
+
+          <div class="donor_lvl gold">
+            <h1>Gold</h1>
+            <h2>$500+</h2>
+          </div>
+
+          <div class="donor_lvl silver">
+            <h1>Silver</h1>
+            <h2>$250+</h2>
+          </div>        
+        </div>
+        <div class="col-lg-6">
+          <div class="donor_lvl bronze">
+            <h1>Bronze</h1>
+            <h2>$100+</h2>
+          </div>
+
+          <div class="donor_lvl individual">
+            <h1>Individual</h1>
+            <h2>$50+</h2>
+          </div>
+
+          <div class="donor_lvl other">
+            <h1>Other</h1>
+            <h2>$25</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+
+        <!-- donation amt form -->
+        <form role="form" class="form-horizontal" style="margin-top:25px">
+          <div class="form-group">
+            <label for="donationAmt" class="col-lg-2 control-label">$</label>
+            <div class="col-lg-10">
+              <input type="text" class="form-control" placeholder="Donation" id="donationAmt" />
+            </div>
+          </div>
+        </form>
+
+        <!-- payment select form -->
+        <form class="form-inline" role="form" style="margin-top: 40px; margin-bottom: 40px; height: 34px;" id="payment-select-form">
+          <div class="radio" id="donate_source">
+            <label><input type="radio" name="donate_source" id="donate_source_B" value="B" checked="checked">Bank</label>
+            <label><input type="radio" name="donate_source" id="donate_source_C" value="C">Credit Card</label>
+            <label><input type="radio" name="donate_source" id="donate_source_P" value="P">PayPal</label>
+            <label><input type="radio" name="donate_source" id="donate_source_G" value="G">Pledge</label>
+          </div>
+        </form>
+
+        <!-- bank form -->
+        <form role="form" id="form-B" class="payment-form">
+          <div class="form-group">
+          <label for="bankName">Bank Name</label>
+          <input type="text" class="form-control" id="bankName" />
+          </div>
+          <div class="form-group">
+          <label for="routingNumber">Routing Number</label>
+          <input type="text" class="form-control" id="routing" />
+          </div>
+          <div class="form-group">
+          <label for="acctNumber">Account Number</label>
+          <input type="text" class="form-control" id="account" />
+          </div>
+          <div class="form-group">
+          <label for="bankAcctType">Type</label>
+            <select>
+              <option value="checking">Checking</option>
+              <option value="savings">Savings</option>
+            </select>
+          </div>
+        </form>
+
+        <!-- credit card form -->
+        <form role="form" id="form-C" class="payment-form hidden">
+          <div class="form-group">
+          <label for="cardNumber">Card Number</label>
+          <input type="text" class="form-control" id="cardNumber" />
+          </div>
+          <div class="form-group">
+          <label for="expiration">Expiration</label>
+          <input name="expiration" class="form-control" placeholder="mm/yyyy">
+          </div>
+          <div class="form-group">
+          <label for="acctNumber">Security Code</label>
+          <input type="text" class="form-control" id="account" />
+          </div>
+        </form>
+
+        <!-- Pledge instructions -->
+        <div class="payment-form hidden" id="form-G">
+          <p>Please provide a phone number at right. We will follow up within two business days.</p>
+        </div>
+      </div>
+
+        <div class="col-lg-4">
+        {% csrf_token %}
+        {% bootstrap_form donation_form %}
+        {% bootstrap_form donor_form %}
+
+        <button type="submit" class="btn btn-primary">
+          Submit
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-12">
+        <h1>Supporters</h1>
+      </div>
+    </div>
+  </div>
 {% endblock %}
