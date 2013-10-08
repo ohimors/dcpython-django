@@ -42,12 +42,7 @@ def convert_seconds_to_datetime(event):
     Meetup gives us seconds, we need a Python datetime object
     """
 
-    start = parse_datetime(event['time'], 0)
-    try:
-        finish = parse_datetime(event['time'], event['duration'])
-        return '%s - %s' % (start, finish)
-    except:
-        return '%s' % start
+    return parse_datetime(event['time'], 0)
 
 
 register.filter('convert_seconds_to_datetime', convert_seconds_to_datetime)
