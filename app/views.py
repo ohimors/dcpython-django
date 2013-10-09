@@ -1,8 +1,14 @@
 from django.shortcuts import get_object_or_404, render
+from django.views.decorators.cache import cache_page
+from events.views import upcoming_q
+
 # Create your views here.
 
+@cache_page(3600)  # Cache API results for one hour
 def home(request):
-    return render(request, 'app/home.html', {"active": "home"})
+    upcoming = upcoming_q.get().json().get('results')
+    upcoming = upcoming[:3]
+    return render(request, 'app/home.html', {"active": "home", "upcoming": upcoming})
 
 def about(request):
     return render(request, 'app/about.html', {"active": "about"})

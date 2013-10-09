@@ -1,5 +1,7 @@
 {% extends "app/base.html" %}
 
+{% load events_extras %}
+
 {% block title %}DC Python{% endblock %}
 
 {% block head %}<meta name="google-site-verification" content="-D4G19_01yEEClDbiK419T2LcK1_bX4THolsbozJleY" />{% endblock %}
@@ -17,8 +19,19 @@
       <div class="row">
         <div class="col-lg-4">
           <h2>Events</h2>
-          <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-          <p><a class="btn btn-default" href="#">View details &raquo;</a></p>
+          {% for event in upcoming %}
+              <hr />
+              <h3>{{ event.name }}</h3>
+              <h4>{% format_event_date event.start_time event.end_time %}</h4>
+              <h5>{{ event.venue.name }}<br />
+                  {{ event.venue.address_1 }}<br />
+                  {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }}<br>
+              </h5>
+              {{ event.description | safe }}
+              <p>
+                  <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
+              </p>
+          {% endfor %}
         </div>
         <div class="col-lg-4">
           <h2>News</h2>
