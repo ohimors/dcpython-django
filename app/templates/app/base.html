@@ -5,7 +5,6 @@
   <title>{% block title %}Title{% endblock %}</title>
 
   {% bootstrap_css %}
-  {% bootstrap_javascript jquery=True %}
 
   {% block head %}{% endblock %}
   <style>
@@ -50,5 +49,7 @@
         <p>Website proudly created by the DC Python community.</p>
       </footer>
     </div> <!-- /container -->
+
+    {% bootstrap_javascript jquery=True %}
 </body>
 </html>
