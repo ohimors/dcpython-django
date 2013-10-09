@@ -30,6 +30,7 @@
                           <h3 class="panel-title">
                               <a data-toggle="collapse" data-parent="#events" class="accordion-toggle" href="#event-{{ forloop.counter }}-collapse">
                                   {{ event.name }}
+                                  <time datetime="{{ event.start_time.isoformat }}">{{ event.start_time|date:"D M dS, P" }}</time>
                                   <span class="glyphicon glyphicon-collapse-down"></span>
                               </a>
                           </h3>

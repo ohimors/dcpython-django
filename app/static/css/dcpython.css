@@ -1,3 +1,11 @@
 .navbar {
     background: #366C99;
 }
+
+#events .panel-title time:before {
+    content: "(";
+}
+
+#events .panel-title time:after {
+    content: ")";
+}
