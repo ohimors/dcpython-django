@@ -33,15 +33,7 @@
                       </div>
                       <div id="event-{{ forloop.counter }}-collapse" class="panel-collapse collapse {% if forloop.first %}in{% endif %}">
                           <div class="panel-body">
-                              <h4>{% format_event_date event.start_time event.end_time %}</h4>
-                              <h5>{{ event.venue.name }}<br />
-                                  {{ event.venue.address_1 }}<br />
-                                  {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }}<br>
-                              </h5>
-                              {{ event.description | truncatewords_html:140 | safe }}
-                              <p>
-                                  <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
-                              </p>
+                              {% display_event event truncate_description=140 %}
                           </div>
                       </div>
                   </div>

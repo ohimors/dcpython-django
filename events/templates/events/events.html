@@ -16,13 +16,13 @@
         <div class="col-lg-6">
           <h2>Upcoming Events</h2>
           {% for event in upcoming %}
-              {% include "events/event-body.html" %}
+              {% display_event event %}
           {% endfor %}
         </div>
         <div class="col-lg-6">
           <h2>Past Events</h2>
           {% for event in past reversed %}
-              {% include "events/event-body.html" %}
+              {% display_event event %}
           {% endfor %}
        </div>
       </div>

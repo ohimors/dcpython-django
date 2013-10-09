@@ -27,7 +27,11 @@
     {% endif %}
 
     <div itemprop="description">
-        {{ event.description | safe }}
+        {% if truncate_description %}
+            {{ event.description|truncatewords_html:truncate_description|safe }}
+        {% else %}
+            {{ event.description|safe }}
+        {% endif %}
     </div>
 
     <p>

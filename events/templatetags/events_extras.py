@@ -13,3 +13,9 @@ def format_event_date(start_time, end_time):
             "multi_day": multi_day}
 
 register.inclusion_tag('events/event-datetime-range.html')(format_event_date)
+
+def display_event(event, truncate_description=None):
+    return {"event": event, "truncate_description": truncate_description}
+
+register.inclusion_tag('events/event-body.html')(display_event)
+
