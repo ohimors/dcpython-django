@@ -1,0 +1,19 @@
+{% extends "app/base.html" %}
+
+{% load events_extras %}
+
+{% block title %}{{ object.name }} — DCPython{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <h1 class="page-title">
+                {{ object.name }}
+            </h1>
+        </div>
+        <div class="row">
+            <a class="btn btn-primary pull-right" href="{{ object.meetup_url }}">View on Meetup.com</a>
+            {% display_event object omit_title=True %}
+        </div>
+    </div>
+{% endblock %}

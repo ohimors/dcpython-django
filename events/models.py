@@ -3,7 +3,11 @@ from __future__ import absolute_import
 
 from itertools import chain
 
+from django.core.urlresolvers import reverse
 from django.db import models
+from django.db.models import Q
+from django.utils.text import slugify
+from django.utils.timezone import now
 
 from app.integration.meetup import get_upcoming_events, get_past_events
 
@@ -39,13 +43,29 @@ class Venue(models.Model):
         return i
 
 
+class EventManager(models.Manager):
+    use_for_related = True
+
+    def upcoming(self):
+        i = now()
+        return self.filter(Q(start_time__gte=i) | Q(end_time__isnull=False, end_time__gte=i))
+
+    def past(self):
+        i = now()
+        return self.filter(start_time__lt=i).filter(Q(end_time__lt=i) | Q(end_time__isnull=True))
+
+
 class Event(models.Model):
+    objects = EventManager()
+
     record_created = models.DateTimeField(auto_now_add=True)
     record_modified = models.DateTimeField(auto_now=True)
 
     meetup_id = models.CharField(unique=True, max_length=32)
 
     name = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=200)
+
     venue = models.ForeignKey("Venue", null=True, blank=True)
 
     start_time = models.DateTimeField(null=True)
@@ -54,6 +74,11 @@ class Event(models.Model):
     meetup_url = models.URLField(blank=True)
 
     description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        ordering = ('start_time', 'end_time')
+        get_latest_by = 'start_time'
+        unique_together = (('start_time', 'slug'))
 
     @classmethod
     def sync_from_meetup(cls):
@@ -65,9 +90,17 @@ class Event(models.Model):
 
             event.meetup_url = i['event_url']
 
+            event.slug = slugify(event.name)
+
             venue = i.get('venue')
             if venue:
                 event.venue = Venue.create_from_meetup(venue)
 
             event.full_clean()
             event.save()
+
+    def get_absolute_url(self):
+        return reverse('event-detail', kwargs={'slug': self.slug,
+                                               'year': self.start_time.year,
+                                               'month': self.start_time.month,
+                                               'day': self.start_time.day})
