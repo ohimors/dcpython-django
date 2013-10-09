@@ -5,18 +5,26 @@
     <h3 itemprop="name">{{ event.name }}</h3>
     <h4>{% format_event_date event.start_time event.end_time %}</h4>
 
-    <div itemprop="location" itemscope itemtype="http://schema.org/Place">
-        <address>
-            <strong itemprop="name">{{ event.venue.name }}</strong><br>
-            <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
-                <span itemprop="streetAddress">{{ event.venue.address_1 }}</span><br>
-                <span itemprop="addressLocality">{{ event.venue.city }}</span>,
-                <span itemprop="addressRegion">{{ event.venue.state }}</span>
-                <span itemprop="postalCode">{{ event.venue.zip }}</span>
-                <span itemprop="addressContry">USA</span>
-            </div>
-        </address>
-    </div>
+    {% if event.venue.name %}
+        <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+            <address>
+                <strong itemprop="name">{{ event.venue.name }}</strong>
+                {% if event.venue.address_1 or event.venue.city %}
+                    <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress">
+                        <div itemprop="streetAddress">
+                            {{ event.venue.address_1 }}
+                            {% if event.venue.address_2 %}<br>{{ event.venue.address_2 }}{% endif %}
+                        </div>
+
+                        <span itemprop="addressLocality">{{ event.venue.city }}</span>,
+                        <span itemprop="addressRegion">{{ event.venue.state }}</span>
+                        <span itemprop="postalCode">{{ event.venue.zip }}</span>
+                        <span itemprop="addressContry">USA</span>
+                    </div>
+                {% endif %}
+            </address>
+        </div>
+    {% endif %}
 
     <div itemprop="description">
         {{ event.description | safe }}
