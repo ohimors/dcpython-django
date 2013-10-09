@@ -2,17 +2,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>{% block title %}Title{% endblock %}</title>
+    <title>{% block title %}Title{% endblock %}</title>
 
-  {% bootstrap_css %}
+    {% block stylesheets %}
+        {% bootstrap_css %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/dcpython.css" type="text/css">
+    {% endblock stylesheets %}
 
-  <style>
-    .navbar {
-        background: #366C99;
-    }
-  </style>
-
-  {% block extra_head %}{% endblock extra_head %}
+    {% block extra_head %}{% endblock extra_head %}
 </head>
 <body>
 
@@ -51,6 +48,8 @@
       </footer>
     </div> <!-- /container -->
 
-    {% bootstrap_javascript jquery=True %}
+    {% block javascript %}
+        {% bootstrap_javascript jquery=True %}
+    {% endblock javascript %}
 </body>
 </html>
