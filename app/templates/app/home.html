@@ -19,19 +19,34 @@
       <div class="row">
         <div class="col-lg-4">
           <h2>Events</h2>
-          {% for event in upcoming %}
-              <hr />
-              <h3>{{ event.name }}</h3>
-              <h4>{% format_event_date event.start_time event.end_time %}</h4>
-              <h5>{{ event.venue.name }}<br />
-                  {{ event.venue.address_1 }}<br />
-                  {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }}<br>
-              </h5>
-              {{ event.description | truncatewords_html:140 | safe}}
-              <p>
-                  <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
-              </p>
-          {% endfor %}
+
+          <div id="events" class="panel-group">
+              {% for event in upcoming %}
+                  <div class="panel panel-default">
+                      <div class="panel-heading">
+                          <h3 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#events" class="accordion-toggle" href="#event-{{ forloop.counter }}-collapse">
+                                  {{ event.name }}
+                                  <span class="glyphicon glyphicon-collapse-down"></span>
+                              </a>
+                          </h3>
+                      </div>
+                      <div id="event-{{ forloop.counter }}-collapse" class="panel-collapse collapse {% if forloop.first %}in{% endif %}">
+                          <div class="panel-body">
+                              <h4>{% format_event_date event.start_time event.end_time %}</h4>
+                              <h5>{{ event.venue.name }}<br />
+                                  {{ event.venue.address_1 }}<br />
+                                  {{ event.venue.city }}, {{ event.venue.state }} {{ event.venue.zip }} {{ "USA" }}<br>
+                              </h5>
+                              {{ event.description | truncatewords_html:140 | safe }}
+                              <p>
+                                  <a class="btn btn-default" href="{{ event.event_url}}">View event »</a>
+                              </p>
+                          </div>
+                      </div>
+                  </div>
+              {% endfor %}
+          </div>
         </div>
         <div class="col-lg-4">
           <h2>News</h2>
