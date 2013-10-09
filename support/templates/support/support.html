@@ -3,9 +3,9 @@
 
 {% block title %}Donate{% endblock %}
 
-{% block head %}
+{% block extra_head %}
   <script type="text/javascript" src="https://js.balancedpayments.com/v1/balanced.js"></script>
-  
+
   <script type="text/javascript">
     $(function() {
       console.log('startup');
@@ -56,7 +56,7 @@
       // DONATION SOURCE CHANGE
       var handle_donation_source_change = function(e) {
         var donation_source = $(e.target).val();
-  
+
         $(".payment-form").addClass("hidden");
         $("#form-" + donation_source).removeClass("hidden");
         $("#id_donation_type").val(donation_source);
@@ -68,11 +68,11 @@
 
     balanced.init("{{ balanced_uri }}");
   </script>
-  
+
   <style type="text/css">
   .donor_lvl {
     background-color: red;
-    border-radius: 10px;    
+    border-radius: 10px;
     padding:20px;
     text-align: center;
     height: 100px;
@@ -110,7 +110,7 @@
     visibility: hidden;
   }
   </style>
-{% endblock %}
+{% endblock extra_head %}
 
 {% block content %}
   <div class="container">
@@ -135,7 +135,7 @@
           <div class="donor_lvl silver">
             <h1>Silver</h1>
             <h2>$250+</h2>
-          </div>        
+          </div>
         </div>
         <div class="col-lg-6">
           <div class="donor_lvl bronze">
