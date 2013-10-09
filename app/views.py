@@ -1,13 +1,14 @@
 from django.shortcuts import get_object_or_404, render
 from django.views.decorators.cache import cache_page
-from events.views import upcoming_q
+
+from .integration.meetup import get_upcoming_events
+
 
 # Create your views here.
 
 @cache_page(3600)  # Cache API results for one hour
 def home(request):
-    upcoming = upcoming_q.get().json().get('results')
-    upcoming = upcoming[:3]
+    upcoming = get_upcoming_events(count=3)
     return render(request, 'app/home.html', {"active": "home", "upcoming": upcoming})
 
 def about(request):
@@ -21,7 +22,7 @@ def resources(request):
 
 def legal(request):
     #passing the active value, even tho it is not being used
-    return render(request, 'app/legal.html', {"active": "legal"}) 
+    return render(request, 'app/legal.html', {"active": "legal"})
 
 def contact(request):
     return render(request, 'app/contact.html', {'active': 'contact'})
