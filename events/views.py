@@ -37,3 +37,11 @@ class EventDetail(DateDetailView):
     date_field = "start_time"
     month_format = '%m'
     allow_future = True
+
+    def get_object(self, queryset=None):
+        qs = queryset if queryset is not None else self.get_queryset()
+
+        return qs.get(slug=self.kwargs['slug'],
+                      start_time__year=self.kwargs['year'],
+                      start_time__month=self.kwargs['month'],
+                      start_time__day=self.kwargs['day'])
