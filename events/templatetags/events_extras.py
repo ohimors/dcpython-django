@@ -14,8 +14,9 @@ def format_event_date(start_time, end_time):
 
 register.inclusion_tag('events/event-datetime-range.html')(format_event_date)
 
-def display_event(event, truncate_description=None):
-    return {"event": event, "truncate_description": truncate_description}
+def display_event(event, truncate_description=None, omit_title=False, omit_time=False):
+    return {"event": event, "truncate_description": truncate_description,
+            "omit_title": omit_title, "omit_time": omit_time}
 
 register.inclusion_tag('events/event-body.html')(display_event)
 
