@@ -35,9 +35,9 @@
                               </a>
                           </h3>
                       </div>
-                      <div id="event-{{ forloop.counter }}-collapse" class="panel-collapse collapse {% if forloop.first %}in{% endif %}">
+                      <div id="event-{{ forloop.counter }}-collapse" class="panel-collapse collapse">
                           <div class="panel-body">
-                              {% display_event event truncate_description=140 omit_title=True omit_time=True %}
+                              {% display_event event omit_title=True omit_time=True %}
                           </div>
                       </div>
                   </div>
