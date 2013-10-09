@@ -7,7 +7,7 @@ from app.integration.meetup import get_upcoming_events, get_past_events
 
 
 @cache_page(3600)  # Cache API results for one hour
-def events(request):
+def event_list(request):
     upcoming = get_upcoming_events()
     past = get_past_events()
 
