@@ -36,6 +36,7 @@ jQuery(function($) {
       }
       $("#id_donation").val(donation);
     };
+
     $("#donationAmt").change(handle_donation_change).keyup(handle_donation_change);
     handle_donation_change();
     
