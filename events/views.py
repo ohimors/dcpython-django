@@ -9,11 +9,13 @@ from .models import Event
 def event_list(request):
     upcoming = Event.objects.upcoming()
     past = Event.objects.past()
+    years = Event.objects.dates('start_time', 'year', order="DESC")
 
     ctx = {"upcoming": upcoming,
            "past": past,
            # Used for navigation styling:
-           "active": "events"}
+           "active": "events",
+           'archive_years': years}
 
     return render(request, 'events/event_list.html', ctx)
 

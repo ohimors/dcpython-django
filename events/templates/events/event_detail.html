@@ -4,16 +4,21 @@
 
 {% block title %}{{ object.name }} — DCPython{% endblock %}
 
+{% block breadcrumbs %}
+    <li><a href="{% url 'event-list' %}">Events</a></li>
+    <li><a href="{% url 'event-year-archive' year=object.start_time.year %}">{{ object.start_time|date:"Y" }}</a></li>
+    <li><a href="{% url 'event-month-archive' year=object.start_time.year month=object.start_time.month %}">{{ object.start_time|date:"F" }}</a></li>
+    <li class="active">{{ object.name }}</li>
+{% endblock breadcrumbs %}
+
+
 {% block content %}
     <div class="container">
-        <div class="row">
-            <h1 class="page-title">
-                {{ object.name }}
-            </h1>
+        <div class="page-header">
+            <h1>{{ object.name }}</h1>
         </div>
-        <div class="row">
-            <a class="btn btn-primary pull-right" href="{{ object.meetup_url }}">View on Meetup.com</a>
-            {% display_event object omit_title=True %}
-        </div>
+
+        <a class="btn btn-primary pull-right" href="{{ object.meetup_url }}">View on Meetup.com</a>
+        {% display_event object omit_title=True %}
     </div>
 {% endblock %}
