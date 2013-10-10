@@ -42,6 +42,7 @@
         $("#id_donation").val(donation)
       }
       $("#donationAmt").change(handle_donation_change).keyup(handle_donation_change);
+      handle_donation_change()
 
       // LEVEL CLICKS
       var handle_donor_lvl_click = function(e) {
@@ -64,9 +65,106 @@
 
 
       $("#donate_source").change(handle_donation_source_change);
+      // need to do this so value is "B" at start
+      $("#id_donation_type").val("B"); 
+
+      // handle SUBMIT btn
+      window.handle_submit_btn = function(e) {
+        // first, disable submit button so no bouble submit
+        $("#submit_btn").attr("disabled", "disabled");
+        var donation_amount = $("#donationAmt").val();
+
+        // validate amount first - 1 to 999999.99 dollars 
+        // TODO this is not ideal b/c full form is not validated
+        if (!/^[1-9][0-9]{0,5}(\.[0-9]{1,2})?$/.test(donation_amount)) {
+          $("#donationAmt").parents(".form-group").addClass("has-error");
+          $("#submit_btn").attr("disabled", null);
+          return false;
+        }
+
+        var donation_type = $("#id_donation_type").val();
+
+        // remove any errors, so can add just existing errors
+        $(".form-group").removeClass("has-error");
+
+        // get bank token if trying to use bank
+        if (donation_type == "B") {
+          var form = $("#form-B");
+            
+          var bankAccountData = {
+            name: $("#name").val(),
+            routing_number: $("#routing_number").val(),
+            account_number: $("#account_number").val(),
+            type: $("#bankAcctType").val()
+          };
+          balanced.bankAccount.create(bankAccountData, function(resp) {
+            if (resp.error) {
+              for (var k in resp.error) {
+                var v = resp.error[k];
+                $("#" + k).parents(".form-group").addClass("has-error");
+              }
+            } else if (resp.data) {
+              $("#id_bank_token").val(resp.data.uri);
+            }
+
+            makeAjax()
+          })
+        // get cc token if trying to use cc
+        } else if (donation_type == "C") {
+          var form = $("#form-C");
+
+          var expiration = $("#expiration").val().split("/");
+
+          var ccData = {
+            card_number: $("#card_number").val(),
+            expiration_month: expiration[0],
+            expiration_year: expiration[1],
+            security_code: $("#security_code").val()
+          };
+
+          balanced.card.create(ccData, function(resp) {
+            if (resp.error) {
+              for (var k in resp.error) {
+                k = (k.indexOf("expiration") >= 0) ? "expiration" : k;
+                $("#" + k).parents(".form-group").addClass("has-error");
+              }
+            } else if (resp.data) {
+              $("#id_cc_token").val(resp.data.uri);
+            }
+            makeAjax()
+          })
+
+        }
+
+        function makeAjax() {
+          // Make AJAX request
+          var data = {};
+          $("#master_donate_form").find("input").each(function(w,x) {
+            $x = $(x); data[$x.attr('name')] = $x.val();
+          })
+          // data = JSON.stringify(data);
+
+          $.post("/make_donation", data, function(resp) {
+            resp = JSON.parse(resp);
+            if (resp.html) {
+              $("#master_donate_div").html(resp.html);
+            }
+            else if (resp.error) {
+              console.log("ERROR", resp.error);
+            }
+          })
+
+          $("#submit_btn").attr("disabled", null);
+        }
+      return false;
+      }
+
+      $("#master_donate_form").submit(handle_submit_btn);
+
     })
 
     balanced.init("{{ balanced_uri }}");
+
   </script>
   
   <style type="text/css">
@@ -180,16 +278,16 @@
         <!-- bank form -->
         <form role="form" id="form-B" class="payment-form">
           <div class="form-group">
-          <label for="bankName">Bank Name</label>
-          <input type="text" class="form-control" id="bankName" />
+            <label for="name" class="control-label">Name on Account</label>
+            <input type="text" class="form-control" id="name" />
           </div>
           <div class="form-group">
-          <label for="routingNumber">Routing Number</label>
-          <input type="text" class="form-control" id="routing" />
+            <label for="routing_number" class="control-label">Routing Number</label>
+            <input type="text" class="form-control" id="routing_number" />
           </div>
           <div class="form-group">
-          <label for="acctNumber">Account Number</label>
-          <input type="text" class="form-control" id="account" />
+            <label for="account_number" class="control-label">Account Number</label>
+            <input type="text" class="form-control" id="account_number" />
           </div>
           <div class="form-group">
           <label for="bankAcctType">Type</label>
@@ -203,16 +301,16 @@
         <!-- credit card form -->
         <form role="form" id="form-C" class="payment-form hidden">
           <div class="form-group">
-          <label for="cardNumber">Card Number</label>
-          <input type="text" class="form-control" id="cardNumber" />
+            <label for="card_number" class="control-label">Card Number</label>
+            <input type="text" class="form-control" id="card_number" />
           </div>
           <div class="form-group">
-          <label for="expiration">Expiration</label>
-          <input name="expiration" class="form-control" placeholder="mm/yyyy">
+            <label for="expiration" class="control-label">Expiration</label>
+            <input name="expiration" class="form-control" id="expiration" placeholder="mm/yyyy">
           </div>
           <div class="form-group">
-          <label for="acctNumber">Security Code</label>
-          <input type="text" class="form-control" id="account" />
+            <label for="security_code" class="control-label">Security Code</label>
+            <input type="text" class="form-control" id="security_code" />
           </div>
         </form>
 
@@ -222,14 +320,16 @@
         </div>
       </div>
 
-        <div class="col-lg-4">
-        {% csrf_token %}
-        {% bootstrap_form donation_form %}
-        {% bootstrap_form donor_form %}
+        <div class="col-lg-4" id="master_donate_div">
+        <form id="master_donate_form" role="form">
+          {% csrf_token %}
+          {% bootstrap_form donation_form %}
+          {% bootstrap_form donor_form %}
 
-        <button type="submit" class="btn btn-primary">
-          Submit
-        </button>
+          <button type="submit" class="btn btn-primary" id="submit_btn">
+            Submit
+          </button>
+        </form>
       </div>
     </div>
 

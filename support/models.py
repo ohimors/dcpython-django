@@ -25,9 +25,9 @@ class Donor(models.Model):
     """
     Model for Donors to DCPYthon.
     """
-    name = models.CharField(max_length=100, help_text="Name to display on our website")
+    name = models.CharField(max_length=100, verbose_name="Display Name")
+    url = models.URLField(blank=True, null=True, verbose_name="Display Url")
     email = models.EmailField()
-    url = models.URLField(blank=True, null=True)
     phone = PhoneNumberField(blank=True, null=True)
     contact = models.CharField(max_length=300, blank=True, null=True, help_text="name of contact at your organization, if applicable")
     slogan = models.CharField(max_length=200, blank=True, null=True)
