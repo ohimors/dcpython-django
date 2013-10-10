@@ -11,8 +11,7 @@
 
     {% block extra_head %}{% endblock extra_head %}
 </head>
-<body>
-
+<body class="{% block body_classes %}{% if PATH_HIERARCHY %}section-{{ PATH_HIERARCHY.0}}{% else %}homepage{% endif %}{% endblock body_classes %}">
     <div class="navbar navbar-inverse">
       <div class="container">
         <div class="navbar-header">
