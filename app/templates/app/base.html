@@ -25,14 +25,14 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li {% if active == "home" %}class="active"{% endif %}><a href="/" rel="home">Home</a></li>
-            <li {% if active == "events" %}class="active"{% endif %}><a href="/events">Events</a></li>
-            <li {% if active == "donate" %}class="active"{% endif %}><a href="/donate">Donate</a></li>
-            <!--<li {% if active == "deals" %}class="active"{% endif %}><a href="/deals">Member Deals</a></li>
-            <li {% if active == "blog" %}class="active"{% endif %}><a href="/blog">Blog</a></li>-->
-            <li {% if active == "resources" %}class="active"{% endif %}><a href="/resources">Resources</a></li>
-            <li {% if active == "about" %}class="active"{% endif %}><a href="/about">About Us</a></li>
-            <li {% if active == "contact" %}class="active"{% endif %}><a href="/contact">Contact Us</a></li>
+            <li {% if PATH_HIERARCHY|length == 0 %}class="active"{% endif %}><a href="/" rel="home">Home</a></li>
+            <li {% if PATH_HIERARCHY.0 == "events" %}class="active"{% endif %}><a href="/events">Events</a></li>
+            <li {% if PATH_HIERARCHY.0 == "donate" %}class="active"{% endif %}><a href="/donate">Donate</a></li>
+            <!--<li {% if PATH_HIERARCHY.0 == "deals" %}class="active"{% endif %}><a href="/deals">Member Deals</a></li>
+            <li {% if PATH_HIERARCHY.0 == "blog" %}class="active"{% endif %}><a href="/blog">Blog</a></li>-->
+            <li {% if PATH_HIERARCHY.0 == "resources" %}class="active"{% endif %}><a href="/resources">Resources</a></li>
+            <li {% if PATH_HIERARCHY.0 == "about" %}class="active"{% endif %}><a href="/about">About Us</a></li>
+            <li {% if PATH_HIERARCHY.0 == "contact" %}class="active"{% endif %}><a href="/contact">Contact Us</a></li>
           </ul>
         </div><!--/.navbar-collapse -->
       </div>

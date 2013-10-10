@@ -13,8 +13,6 @@ def event_list(request):
 
     ctx = {"upcoming": upcoming,
            "past": past,
-           # Used for navigation styling:
-           "active": "events",
            'archive_years': years}
 
     return render(request, 'events/event_list.html', ctx)
