@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.localflavor.us.models import PhoneNumberField
+from localflavor.us.models import PhoneNumberField
 from PIL import Image
 import base64
 import os
@@ -34,6 +34,7 @@ class Donor(models.Model):
     level = models.CharField(max_length=1, choices=DONOR_LEVELS, blank=True, null=True)
     logo = models.ImageField(upload_to="donor_logos", blank=True, null=True)
     secret = models.CharField(max_length=90)
+    balanced_uri = models.CharField(max_length=100)
 
     def save (self, *args, **kwargs):
         if not self.secret:
