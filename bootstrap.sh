@@ -14,8 +14,8 @@ sudo apt-get install postgresql postgresql-server-dev-all python-dev python-pip 
 sudo pip install -r /vagrant/requirements.txt
 
 # have to properly set locale for postgres setup
-locale-gen en_US.UTF-8
-sudo update-locale LANG=en_US.UTF-8
+sudo -u postgres pg_createcluster --start -e UTF-8 9.1 main
+sudo -u postgres pg_createcluster --start -e UTF-8 --locale=en_US.UTF8 9.1 main
 
 # setup postgresql
 sudo -u postgres createuser --superuser vagrant
