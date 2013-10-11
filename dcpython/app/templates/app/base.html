@@ -25,14 +25,14 @@
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li {% if active == "home" %}class="active"{% endif %}><a href="{% url 'home' %}" rel="home">Home</a></li>
-            <li {% if active == "events" %}class="active"{% endif %}><a href="{% url 'events' %}">Events</a></li>
-            <li {% if active == "donate" %}class="active"{% endif %}><a href="{% url 'support' %}">Donate</a></li>
+            <li {% if active == "home" %}class="active"{% endif %}><a href="/" rel="home">Home</a></li>
+            <li {% if active == "events" %}class="active"{% endif %}><a href="/events">Events</a></li>
+            <li {% if active == "donate" %}class="active"{% endif %}><a href="/donate">Donate</a></li>
             <!--<li {% if active == "deals" %}class="active"{% endif %}><a href="/deals">Member Deals</a></li>
             <li {% if active == "blog" %}class="active"{% endif %}><a href="/blog">Blog</a></li>-->
-            <li {% if active == "resources" %}class="active"{% endif %}><a href="{% url 'resources' %}">Resources</a></li>
-            <li {% if active == "about" %}class="active"{% endif %}><a href="{% url 'about' %}">About Us</a></li>
-            <li {% if active == "contact" %}class="active"{% endif %}><a href="{% url 'contact' %}">Contact Us</a></li>
+            <li {% if active == "resources" %}class="active"{% endif %}><a href="/resources">Resources</a></li>
+            <li {% if active == "about" %}class="active"{% endif %}><a href="/about">About Us</a></li>
+            <li {% if active == "contact" %}class="active"{% endif %}><a href="/contact">Contact Us</a></li>
           </ul>
         </div><!--/.navbar-collapse -->
       </div>
@@ -43,7 +43,7 @@
     <div class="container footer">
       <footer>
         <p><a rel="me" href="https://twitter.com/dcpython">Follow DC Python on Twitter!</a></p>
-        <p><a href="{% url 'legal' %}">&copy; 2008&ndash;{% now "Y" %}, ZPUGDC, Inc.</a>, a not-for-profit, section 501(c)(3). All rights reserved.</p>
+        <p><a href="/legal">&copy; 2008&ndash;{% now "Y" %}, ZPUGDC, Inc.</a>, a not-for-profit, section 501(c)(3). All rights reserved.</p>
         <p>Website proudly created by the DC Python community.</p>
       </footer>
     </div> <!-- /container -->
