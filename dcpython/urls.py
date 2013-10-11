@@ -6,8 +6,8 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Examples:
     url(r'^$', 'dcpython.app.views.home', name='home'),
-    url(r'^events/?$', 'dcpython.events.views.events', name='events'),
-    url(r'^donate/?$', 'dcpython.support.views.support', name='support'),
+    url(r'^events$', 'dcpython.events.views.events', name='events'),
+    url(r'^donate$', 'dcpython.support.views.support', name='support'),
     url(r'^donor/(?P<secret>[\w\-_]+=?=?=?)$', 'dcpython.support.views.donor_update', name='donor_update'),
     url(r'^make_donation$', 'dcpython.support.views.make_donation', name='make_donation'),
     url(r'^about$', 'dcpython.app.views.about', name='about'),
