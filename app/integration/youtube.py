@@ -1,9 +1,12 @@
 # encoding: utf-8
 from __future__ import absolute_import
 
+from functools import wraps
 from warnings import warn
+import logging
 
 from apiclient.discovery import build
+from apiclient.http import HttpError
 
 from django.core.cache import cache
 from django.conf import settings
@@ -17,6 +20,20 @@ if not API_KEY or not CHANNEL_ID:
 YOUTUBE = build('youtube', 'v3', developerKey=API_KEY)
 
 
+def http_error_tolerant_generator(f):
+    """Ensures that a generator will silently yield nothing when an HttpError occurs"""
+    @wraps(f)
+    def inner(*args, **kwargs):
+        try:
+            for i in f(*args, **kwargs):
+                yield i
+        except HttpError as exc:
+            logging.exception("Unhandled HttpError: %s" % exc)
+            raise StopIteration
+    return inner
+
+
+@http_error_tolerant_generator
 def get_playlists():
     playlists = cache.get("youtube_playlists_%s" % CHANNEL_ID)
     if playlists is None:
@@ -27,6 +44,7 @@ def get_playlists():
         yield playlist['id'], playlist['snippet']['title']
 
 
+@http_error_tolerant_generator
 def get_playlist_items(playlist_id):
     items_request = YOUTUBE.playlistItems().list(playlistId=playlist_id,
                                                  part="snippet",
