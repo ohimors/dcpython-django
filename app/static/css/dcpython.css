@@ -2,10 +2,22 @@
     background: #366C99;
 }
 
-#events .panel-title time:before {
+.homepage .jumbotron {
+    background-color: inherit;
+}
+
+.homepage #events time:before {
     content: "(";
 }
 
-#events .panel-title time:after {
+.homepage #events time:after {
     content: ")";
+}
+
+.event > h3:first-child {
+    margin-top: 0;
+}
+
+.table time {
+    white-space: nowrap;
 }

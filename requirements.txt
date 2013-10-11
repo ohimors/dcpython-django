@@ -10,3 +10,4 @@ google-api-python-client==1.2
 Pillow==2.2.1
 python-dateutil==2.1
 balanced==0.11.14
+django-localflavor==1.0

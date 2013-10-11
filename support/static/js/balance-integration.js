@@ -1,4 +1,4 @@
-/* global jQuery, console, balanced */
+/* global jQuery, console, balanced, window */
 
 jQuery(function($) {
     "use strict";
@@ -36,6 +36,7 @@ jQuery(function($) {
       }
       $("#id_donation").val(donation);
     };
+
     $("#donationAmt").change(handle_donation_change).keyup(handle_donation_change);
     handle_donation_change();
     
@@ -64,7 +65,7 @@ jQuery(function($) {
     $("#id_donation_type").val("B");
 
     // handle SUBMIT btn
-    var handle_submit_btn = function() {
+    window.handle_submit_btn = function() {
       // first, disable submit button so no bouble submit
       $("#submit_btn").attr("disabled", "disabled");
       var donation_amount = $("#donationAmt").val();
@@ -160,4 +161,3 @@ jQuery(function($) {
 
   });
 
-  balanced.init("{{ balanced_uri }}");

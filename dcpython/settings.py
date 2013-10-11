@@ -5,8 +5,10 @@ BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
 
 MEETUP_API_KEY = env.get("MEETUP_API_KEY", "5b7d196f674c6d74514b1c45dc4a4f")
 GOOGLE_API_KEY = env.get("GOOGLE_API_KEY", "AIzaSyAI0V0ZxALAxiDf1gpOywhj_REJHcu_sAU")
+YOUTUBE_CHANNEL_ID = os.environ.get('YOUTUBE_CHANNEL_ID', 'UCGQZd1FaRdbZGnOuzh_n9Zg')
 BALANCED_URI = env.get("BALANCED_URI", "/v1/marketplaces/TEST-MP4xsJ9r6w8jzy6aD38AMms8")
 BALANCED_SECRET = env.get("BALANCED_SECRET", "ak-test-T0L0y34t8N1NGqE4xYEz2kCdOZFFBPnb")
+
 # Django settings for dcpython project.
 
 DEBUG = True
@@ -78,7 +80,7 @@ MEDIA_URL = ''
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = 'staticfiles' 
+STATIC_ROOT = 'staticfiles'
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -129,6 +131,18 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.request',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.contrib.messages.context_processors.messages',
+    'app.context_processors.path_hierarchy',
 )
 
 INSTALLED_APPS = (
@@ -183,3 +197,4 @@ if "DATABASE_URL" in os.environ:
     FIXTURE_DIRS = (
        '/vagrant/dcpython/fixtures',
     )
+
