@@ -12,6 +12,7 @@
     {% block extra_head %}{% endblock extra_head %}
 </head>
 <body class="{% block body_classes %}{% if PATH_HIERARCHY %}section-{{ PATH_HIERARCHY.0}}{% else %}homepage{% endif %}{% endblock body_classes %}">
+<div class="wrapper">
     <div class="navbar navbar-inverse">
       <div class="container">
         <div class="navbar-header">
@@ -37,6 +38,8 @@
       </div>
     </div>
 
+
+
     {% block breadcrumbs-container %}
         <div class="container">
             <ol class="breadcrumb">
@@ -49,14 +52,27 @@
 
     {% block content %}{% endblock content %}
 
-    <div class="container footer">
-      <footer>
-        <p><a rel="me" href="https://twitter.com/dcpython">Follow DC Python on Twitter!</a></p>
-        <p><a href="https://github.com/DCPython/dcpython-django">Fork me on GitHub</a></p>
-        <p>&copy; 2008&ndash;{% now "Y" %} <a href="{% url 'legal' %}">ZPUGDC Inc</a>, a non-profit 501(c)(3) in Maryland, USA. All rights reserved.</p>
-        <p>Website proudly created with <a href="http://djangoproject.com">Django</a> by the <a href="http://meetup.com/DCPython">DC Python community</a>.</p>
-      </footer>
-    </div> <!-- /container -->
+    </div>
+
+    <footer class="footer">
+      <div class="container">
+          <span class="social-buttons">
+              <ul>
+              <li><a href="https://twitter.com/dcpython" class="twitter-follow-button" data-show-count="true">Follow @dcpython</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></li>
+              <li>
+                  <iframe src="http://ghbtns.com/github-btn.html?user=DCPython&repo=dcpython-django&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="62" height="20"></iframe>
+              </li>
+              </ul>
+        </span>
+
+
+        <p>&copy; 2008&ndash;{% now "Y" %} <a href="{% url 'legal' %}">ZPUGDC Inc</a>, a non-profit 501(c)(3) in Maryland, USA. All rights reserved.
+            <br/>Website proudly created with <a href="http://djangoproject.com" target="_blank">Django</a> by the <a href="http://meetup.com/DCPython">DC Python community</a>.</p>
+      </div>
+    </footer> <!-- /container -->
+
+
 
     {% block javascript %}
         {% bootstrap_javascript jquery=True %}
